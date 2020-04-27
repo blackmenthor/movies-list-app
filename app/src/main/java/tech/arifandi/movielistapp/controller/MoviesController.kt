@@ -9,6 +9,7 @@ import tech.arifandi.movielistapp.api.response.MovieReviewsResponse
 import tech.arifandi.movielistapp.logging.Logger
 import tech.arifandi.movielistapp.models.Genre
 import tech.arifandi.movielistapp.models.MovieDetail
+import tech.arifandi.movielistapp.models.MovieVideo
 import tech.arifandi.movielistapp.utils.SchedulerProvider
 
 internal class MoviesController(
@@ -73,6 +74,19 @@ internal class MoviesController(
             .subscribeOn(schedulerProvider.computation())
             .doOnSuccess { logger.logInfo("Got movie reviews with id $movieId : ${it.reviews.size} items") }
             .doOnError { logger.logError(it) }
+    }
+
+    /**
+     * Gets movie videos/trailers by Movie ID
+     */
+    fun getMovieVideos(movieId: Int): Single<List<MovieVideo>> {
+        return api
+            .moviesDataSource
+            .getMovieVideos(movieId)
+            .subscribeOn(schedulerProvider.computation())
+            .doOnSuccess { logger.logInfo("Got movie videos with id $movieId : ${it.videos.size} items") }
+            .doOnError { logger.logError(it) }
+            .map { it.videos }
     }
 
 }

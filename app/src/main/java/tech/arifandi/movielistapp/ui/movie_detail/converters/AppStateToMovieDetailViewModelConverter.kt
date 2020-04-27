@@ -18,10 +18,12 @@ internal class AppStateToMovieDetailViewModelConverter : Converter<AppState, Mov
         }
         val result = state.movie
         val reviews = state.reviews
+        val videos = state.videos
         return MovieDetailViewModel(
             viewState = viewState,
             result = result,
-            reviews = reviews
+            reviews = reviews,
+            videos = videos
         )
     }
 

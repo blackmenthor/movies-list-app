@@ -185,6 +185,35 @@
             android:layout_gravity="center"
             android:textStyle="bold"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Videos"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/videosList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            android:scrollbars="vertical"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/txtNoVideos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="There are no videos"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:visibility="gone"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:textStyle="bold"/>
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

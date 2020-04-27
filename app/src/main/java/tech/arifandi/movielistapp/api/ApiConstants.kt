@@ -21,5 +21,6 @@ internal class ApiConstants {
 
     object URL {
         const val imageUrl = "https://image.tmdb.org/t/p/w500/"
+        const val youtubeUrl = "https://www.youtube.com/watch?v="
     }
 }

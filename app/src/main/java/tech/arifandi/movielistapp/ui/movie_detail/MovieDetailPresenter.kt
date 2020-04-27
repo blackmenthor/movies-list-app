@@ -31,6 +31,8 @@ internal class MovieDetailPresenter(
 
     fun loadNextPage() = store.dispatch(MovieDetailActions.LoadNextReviewPage)
 
+    fun openYoutubeVideo(videoKey: String?) = movieDetailView.openYoutubeVideo(videoKey)
+
     fun destroy() {
         compositeDisposable.clear()
         store.dispatch(MovieDetailActions.ResetState)

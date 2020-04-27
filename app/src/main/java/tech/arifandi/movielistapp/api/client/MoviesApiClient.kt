@@ -6,6 +6,7 @@ import tech.arifandi.movielistapp.api.ApiConstants
 import tech.arifandi.movielistapp.api.response.GenreDetailResponse
 import tech.arifandi.movielistapp.api.response.GenreResponse
 import tech.arifandi.movielistapp.api.response.MovieReviewsResponse
+import tech.arifandi.movielistapp.api.response.MovieVideosResponse
 import tech.arifandi.movielistapp.models.MovieDetail
 
 internal interface MoviesApiClient {
@@ -41,5 +42,13 @@ internal interface MoviesApiClient {
         @Path(ApiConstants.Keys.id) movieId: Int,
         @Query(ApiConstants.Keys.page) page: Int
     ): Single<MovieReviewsResponse>
+
+    /**
+     * Get movie videos/trailers by Movie ID
+     */
+    @GET("movie/{id}/videos")
+    fun getMovieVideos(
+        @Path(ApiConstants.Keys.id) movieId: Int
+    ): Single<MovieVideosResponse>
 
 }

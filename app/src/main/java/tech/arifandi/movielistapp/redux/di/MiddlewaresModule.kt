@@ -5,9 +5,11 @@ import dagger.Provides
 import io.reactivex.Single
 import org.rekotlin.Action
 import tech.arifandi.movielistapp.controller.MoviesController
+import tech.arifandi.movielistapp.models.MovieDetailItem
 import tech.arifandi.movielistapp.redux.actions.GenreActions
 import tech.arifandi.movielistapp.redux.actions.GenreDetailActions
 import tech.arifandi.movielistapp.redux.actions.MovieDetailActions
+import tech.arifandi.movielistapp.utils.Constants
 import javax.inject.Singleton
 
 @Module
@@ -88,17 +90,33 @@ internal class MiddlewaresModule {
                             .getMovieDetail(action.payload)
                             .flatMap { movieDetail ->
                                 moviesController
-                                    .getMovieReviews(movieDetail.id)
+                                    .getMovieReviews(action.payload)
                                     .flatMap { movieReviews ->
-                                        val pair = Pair(movieDetail, movieReviews)
-                                        return@flatMap Single.just(pair)
+                                        return@flatMap Single.just(
+                                            MovieDetailItem(
+                                                movieDetail = movieDetail,
+                                                reviews = movieReviews.reviews,
+                                                loadMore = movieReviews.page < movieReviews.totalPages
+                                            )
+                                        )
+                                    }
+                            }
+                            .flatMap { movieDetailItem ->
+                                moviesController
+                                    .getMovieVideos(action.payload)
+                                    .flatMap { movieVideos ->
+                                        val filteredVideos = movieVideos
+                                            .filter { it.site == Constants.Default.YOUTUBE_SITE }
+                                        return@flatMap Single.just(
+                                            movieDetailItem.copy(
+                                                videos = filteredVideos
+                                            )
+                                        )
                                     }
                             }
                             .subscribe(
                                 {
-                                    val loadMore = it.second.page < it.second.totalPages
-                                    val newPair = Pair(it.first, it.second.reviews)
-                                    dispatch(MovieDetailActions.GotFirstResult(newPair, loadMore))
+                                    dispatch(MovieDetailActions.GotFirstResult(it))
                                 },
                                 {
                                     dispatch(MovieDetailActions.FetchFailed(it))

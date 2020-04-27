@@ -2,6 +2,7 @@ package tech.arifandi.movielistapp.ui.movie_detail
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,23 +10,22 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_movie_detail.*
-import kotlinx.android.synthetic.main.activity_movie_detail.containerError
-import kotlinx.android.synthetic.main.activity_movie_detail.containerLoading
 import kotlinx.android.synthetic.main.error_view.*
 import kotlinx.android.synthetic.main.movie_detail_content.*
-import tech.arifandi.movielistapp.R
 import tech.arifandi.movielistapp.App
+import tech.arifandi.movielistapp.R
 import tech.arifandi.movielistapp.api.error.ApiError
 import tech.arifandi.movielistapp.models.MovieDetail
 import tech.arifandi.movielistapp.models.MovieReview
+import tech.arifandi.movielistapp.models.MovieVideo
 import tech.arifandi.movielistapp.ui.base.BaseActivity
 import tech.arifandi.movielistapp.ui.movie_detail.adapter.ReviewAdapter
+import tech.arifandi.movielistapp.ui.movie_detail.adapter.VideoAdapter
 import tech.arifandi.movielistapp.ui.movie_detail.di.MovieDetailGraph
 import tech.arifandi.movielistapp.ui.movie_detail.di.MovieDetailModule
 import tech.arifandi.movielistapp.utils.SchedulerProvider
 import tech.arifandi.movielistapp.utils.asVisibility
 import tech.arifandi.movielistapp.utils.convertToImagePath
-import java.lang.Exception
 import javax.inject.Inject
 
 internal sealed class MovieDetailViewState {
@@ -38,7 +38,8 @@ internal sealed class MovieDetailViewState {
 internal data class MovieDetailViewModel(
     val viewState: MovieDetailViewState,
     val result: MovieDetail?,
-    val reviews: List<MovieReview>?
+    val reviews: List<MovieReview>?,
+    val videos: List<MovieVideo>?
 )
 
 internal class MovieDetailActivity : BaseActivity(), MovieDetailView {
@@ -48,6 +49,9 @@ internal class MovieDetailActivity : BaseActivity(), MovieDetailView {
 
     @Inject
     lateinit var adapter: ReviewAdapter
+
+    @Inject
+    lateinit var videoAdapter: VideoAdapter
 
     @Inject
     lateinit var schedulerProvider: SchedulerProvider
@@ -124,6 +128,7 @@ internal class MovieDetailActivity : BaseActivity(), MovieDetailView {
             }
         }
         adapter.results = viewModel.reviews
+        videoAdapter.results = viewModel.videos
     }
 
     private fun setupRecyclerView() {
@@ -131,7 +136,12 @@ internal class MovieDetailActivity : BaseActivity(), MovieDetailView {
         reviewsList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         reviewsList.isNestedScrollingEnabled = false
 
+        videosList.adapter = videoAdapter
+        videosList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        videosList.isNestedScrollingEnabled = false
+
         adapter.onLoadingViewDrawn = { presenter.loadNextPage() }
+        videoAdapter.onOpenYoutubeClicked = { presenter.openYoutubeVideo(it.key) }
     }
 
     private fun showMovieContent(item: MovieDetail?) {
@@ -167,6 +177,11 @@ internal class MovieDetailActivity : BaseActivity(), MovieDetailView {
 
                 override fun onError(e: Exception?) = showImage()
             })
+    }
+
+    override fun openYoutubeVideo(videoKey: String?) {
+        videoKey ?: return
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://$videoKey")))
     }
 
     companion object {

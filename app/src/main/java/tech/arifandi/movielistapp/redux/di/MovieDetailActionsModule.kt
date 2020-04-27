@@ -5,6 +5,7 @@ import dagger.Provides
 import tech.arifandi.movielistapp.redux.actions.MovieDetailActions
 import tech.arifandi.movielistapp.redux.states.AppState
 import tech.arifandi.movielistapp.redux.states.CurrentMovieDetailPageState
+import tech.arifandi.movielistapp.redux.states.MovieDetailState
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -31,12 +32,7 @@ internal class MovieDetailActionsModule {
                 AppState {
 
             return state.copy(
-                movieDetailState = state.movieDetailState.copy(
-                    currentState = CurrentMovieDetailPageState.Idle,
-                    movie = null,
-                    currentReviewPage = 1,
-                    reviews = listOf()
-                )
+                movieDetailState = MovieDetailState()
             )
         }
 
@@ -48,7 +44,8 @@ internal class MovieDetailActionsModule {
                     currentState = CurrentMovieDetailPageState.Requesting,
                     movie = null,
                     currentReviewPage = 1,
-                    reviews = listOf()
+                    reviews = listOf(),
+                    videos = listOf()
                 )
             )
         }
@@ -75,15 +72,17 @@ internal class MovieDetailActionsModule {
         private fun gotFirstResultStateReducer(action: MovieDetailActions.GotFirstResult, state: AppState):
                 AppState {
 
-            val movie = action.payload.first
-            val reviews = action.payload.second
+            val movie = action.payload.movieDetail
+            val reviews = action.payload.reviews
+            val videos = action.payload.videos
 
             return state.copy(
                 movieDetailState = state.movieDetailState.copy(
                     currentState = CurrentMovieDetailPageState.Succeed,
                     movie = movie,
                     reviews = reviews,
-                    currentReviewPage = 1
+                    currentReviewPage = 1,
+                    videos = videos
                 )
             )
         }

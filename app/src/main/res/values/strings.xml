@@ -1,10 +1,7 @@
 <resources>
     <string name="app_name">Movie List App</string>
     <string name="home_title">Movie DB List</string>
-    <string name="home_text">Start by clicking on the top right Search Icon</string>
     <string name="home_loading">Please wait…</string>
-    <string name="search_title">Search</string>
-    <string name="search_hint">Search Github users here</string>
     <string name="generic_api_error">Sorry, There\'s something wrong with our system</string>
     <string name="api_connectivity_error">Connection error, Please check your device\'s internet connection</string>
     <string name="not_found_error">Data Not Found</string>

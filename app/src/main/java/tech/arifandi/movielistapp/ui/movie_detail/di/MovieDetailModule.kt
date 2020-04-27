@@ -8,6 +8,7 @@ import tech.arifandi.movielistapp.redux.states.AppState
 import tech.arifandi.movielistapp.ui.movie_detail.MovieDetailPresenter
 import tech.arifandi.movielistapp.ui.movie_detail.MovieDetailView
 import tech.arifandi.movielistapp.ui.movie_detail.adapter.ReviewAdapter
+import tech.arifandi.movielistapp.ui.movie_detail.adapter.VideoAdapter
 import tech.arifandi.movielistapp.ui.movie_detail.converters.AppStateToMovieDetailViewModelConverter
 
 @Module
@@ -17,6 +18,12 @@ internal class MovieDetailModule(private val view: MovieDetailView) {
     @MovieDetailScope
     fun providesAdapter(): ReviewAdapter {
         return ReviewAdapter()
+    }
+
+    @Provides
+    @MovieDetailScope
+    fun providesVideoAdapter(): VideoAdapter {
+        return VideoAdapter()
     }
 
     @Provides
