@@ -84,7 +84,7 @@ internal class GenreDetailActivity : BaseActivity(), GenreDetailContract {
     private fun showErrorState(throwable: Throwable) {
         containerError.visibility = View.VISIBLE
         containerLoading.visibility = View.GONE
-        resultsList.visibility = View.GONE
+        containerMain.visibility = View.GONE
         btnRetry.setOnClickListener { startPresenter() }
 
         if (throwable is ApiError)
