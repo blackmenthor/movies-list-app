@@ -6,12 +6,12 @@ import io.reactivex.Flowable
 import tech.arifandi.movielistapp.redux.ThreadSafeStore
 import tech.arifandi.movielistapp.redux.states.AppState
 import tech.arifandi.movielistapp.ui.home.HomePresenter
-import tech.arifandi.movielistapp.ui.home.HomeView
+import tech.arifandi.movielistapp.ui.home.HomeContract
 import tech.arifandi.movielistapp.ui.home.adapter.GenresAdapter
 import tech.arifandi.movielistapp.ui.home.converters.AppStateToHomeViewModelConverter
 
 @Module
-internal class HomeModule(private val view: HomeView) {
+internal class HomeModule(private val contract: HomeContract) {
 
     @Provides
     @HomeScope
@@ -32,7 +32,7 @@ internal class HomeModule(private val view: HomeView) {
         stateFlowable: Flowable<AppState>,
         converter: AppStateToHomeViewModelConverter
     ): HomePresenter {
-        return HomePresenter(view, store, stateFlowable, converter)
+        return HomePresenter(contract, store, stateFlowable, converter)
     }
 
 }

@@ -1,48 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="8dp"
-    android:paddingEnd="8dp"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    android:gravity="center_vertical"
-    tools:ignore="UseCompoundDrawables">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp">
 
-    <FrameLayout
-        android:layout_width="84dp"
-        android:layout_height="84dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
-        <ImageView
-            android:id="@+id/imgPoster"
-            android:visibility="gone"
+        <FrameLayout
+            android:id="@+id/containerPoster"
             android:layout_width="84dp"
             android:layout_height="84dp"
-            android:layout_marginEnd="16dp"
-            tools:src="@drawable/movie_db"
-            tools:ignore="ContentDescription,RtlSymmetry" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/txtTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <ProgressBar
-            android:visibility="visible"
-            android:id="@+id/progressBar"
-            android:layout_width="84dp"
-            android:layout_height="84dp" />
+            <ImageView
+                android:id="@+id/imgPoster"
+                android:visibility="gone"
+                android:layout_width="84dp"
+                android:layout_height="84dp"
+                android:layout_marginEnd="16dp"
+                tools:src="@drawable/movie_db"
+                tools:ignore="ContentDescription,RtlSymmetry" />
 
-    </FrameLayout>
+            <ProgressBar
+                android:visibility="visible"
+                android:id="@+id/progressBar"
+                android:layout_width="84dp"
+                android:layout_height="84dp" />
 
-    <TextView
-        android:id="@+id/txtTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="User"
-        android:textSize="18sp"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:textColor="@color/black"
-        android:layout_marginStart="16dp"
-        tools:ignore="RtlSymmetry" />
+        </FrameLayout>
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="Movie"
+            android:textSize="18sp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:textColor="@color/black"
+            android:layout_marginStart="16dp"
+            tools:ignore="RtlSymmetry"
+            app:layout_constraintRight_toLeftOf="@id/arrowRight"
+            app:layout_constraintLeft_toRightOf="@id/containerPoster"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/arrowRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_chevron_right"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="ContentDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

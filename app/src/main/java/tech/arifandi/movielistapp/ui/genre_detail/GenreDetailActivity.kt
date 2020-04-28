@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.error_view.*
 import tech.arifandi.movielistapp.R
 import tech.arifandi.movielistapp.App
 import tech.arifandi.movielistapp.api.error.ApiError
+import tech.arifandi.movielistapp.models.Genre
 import tech.arifandi.movielistapp.models.Movie
 import tech.arifandi.movielistapp.ui.base.BaseActivity
 import tech.arifandi.movielistapp.ui.genre_detail.adapter.GenreDetailAdapter
@@ -30,7 +31,7 @@ internal sealed class GenreDetailViewState {
 
 internal data class GenreDetailViewModel(val viewState: GenreDetailViewState, val results: List<Movie?>)
 
-internal class GenreDetailActivity : BaseActivity(), GenreDetailView {
+internal class GenreDetailActivity : BaseActivity(), GenreDetailContract {
 
     @Inject
     lateinit var presenter: GenreDetailPresenter
@@ -53,6 +54,7 @@ internal class GenreDetailActivity : BaseActivity(), GenreDetailView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_genre_detail)
+        setUpActionBar()
         setupRecyclerView()
         subscribeToPresenter()
         startPresenter()
@@ -83,6 +85,7 @@ internal class GenreDetailActivity : BaseActivity(), GenreDetailView {
         containerError.visibility = View.VISIBLE
         containerLoading.visibility = View.GONE
         resultsList.visibility = View.GONE
+        btnRetry.setOnClickListener { startPresenter() }
 
         if (throwable is ApiError)
             txtError.text = throwable.getMessage(resources)
@@ -95,26 +98,32 @@ internal class GenreDetailActivity : BaseActivity(), GenreDetailView {
             GenreDetailViewState.Idle -> {
                 containerError.visibility = View.GONE
                 containerLoading.visibility = View.GONE
-                resultsList.visibility = View.GONE
+                containerMain.visibility = View.GONE
             }
             GenreDetailViewState.Requesting -> {
                 containerError.visibility = View.GONE
                 containerLoading.visibility = View.VISIBLE
-                resultsList.visibility = View.GONE
+                containerMain.visibility = View.GONE
             }
             is GenreDetailViewState.Failed -> showErrorState(viewModel.viewState.cause)
             GenreDetailViewState.Succeed -> {
                 containerLoading.visibility = View.GONE
-                resultsList.visibility = viewModel.results.isNotEmpty().asVisibility()
+                containerMain.visibility = viewModel.results.isNotEmpty().asVisibility()
                 containerError.visibility = viewModel.results.isEmpty().asVisibility()
             }
         }
         adapter.results = viewModel.results
     }
 
+    private fun setUpActionBar() {
+        val genreName = intent.getStringExtra(GENRE_NAME_KEY) ?: resources.getString(R.string.app_name)
+        supportActionBar?.title = genreName
+    }
+
     private fun setupRecyclerView() {
         resultsList.adapter = adapter
         resultsList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        resultsList.isNestedScrollingEnabled = false
 
         adapter.onMovieClicked = { presenter.onMovieClicked(it) }
         adapter.onLoadingViewDrawn = { presenter.loadNextPage() }
@@ -122,11 +131,13 @@ internal class GenreDetailActivity : BaseActivity(), GenreDetailView {
 
     companion object {
 
-        private const val GENRE_ID_KEY = "GENRE"
+        private const val GENRE_ID_KEY = "GENRE_ID"
+        private const val GENRE_NAME_KEY = "GENRE_NAME"
 
-        fun newIntent(context: Context, genreId: Int): Intent {
+        fun newIntent(context: Context, genre: Genre): Intent {
             val intent = Intent(context, GenreDetailActivity::class.java)
-            intent.putExtra(GENRE_ID_KEY, genreId)
+            intent.putExtra(GENRE_ID_KEY, genre.id)
+            intent.putExtra(GENRE_NAME_KEY, genre.name)
             return intent
         }
     }

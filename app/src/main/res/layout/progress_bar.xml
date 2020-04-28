@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:text="@string/home_loading"
+        android:text="@string/loading_text"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="24sp" />

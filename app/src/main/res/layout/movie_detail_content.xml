@@ -75,7 +75,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Release Date: "
+                        android:text="@string/movie_detail_release_date"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -121,7 +121,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Runtime: "
+                        android:text="@string/movie_detail_runtime"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -143,7 +143,7 @@
             android:id="@+id/overviewTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Overview: "
+            android:text="@string/movie_detail_overview"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"/>
@@ -159,7 +159,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Reviews"
+            android:text="@string/movie_detail_reviews"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"/>
@@ -170,14 +170,21 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:clipChildren="false"
-            android:scrollbars="vertical"
+            android:scrollbars="none"
             android:orientation="vertical" />
+
+        <Button
+            android:id="@+id/btnSeeAllReviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/movie_detail_see_reviews"/>
 
         <TextView
             android:id="@+id/txtNoReview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="There are no reviews"
+            android:text="@string/movie_detail_reviews_empty"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:visibility="gone"
@@ -188,7 +195,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Videos"
+            android:text="@string/movie_detail_videos"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"/>
@@ -199,14 +206,14 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:clipChildren="false"
-            android:scrollbars="vertical"
+            android:scrollbars="none"
             android:orientation="vertical" />
 
         <TextView
             android:id="@+id/txtNoVideos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="There are no videos"
+            android:text="@string/movie_detail_videos_empty"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:visibility="gone"

@@ -1,25 +1,25 @@
 package tech.arifandi.movielistapp.ui.genre_detail.adapter
 
 import android.view.View
-import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_movie_view.view.*
 import tech.arifandi.movielistapp.R
 import tech.arifandi.movielistapp.models.Movie
+import tech.arifandi.movielistapp.ui.base.adapters.BaseRVViewHolder
 import tech.arifandi.movielistapp.utils.convertToImagePath
 import java.lang.Exception
 
-internal class GenreDetailViewHolder (
+internal class GenreDetailViewHolder(
     view: View,
     private val onMovieClicked: (Movie) -> Unit = {}
-) : RecyclerView.ViewHolder(view) {
+): BaseRVViewHolder<Movie>(view) {
 
     private val progressBar = view.progressBar
     private val posterImg = view.imgPoster
     private val txtTitle = view.txtTitle
 
-    fun bind(item: Movie) {
+    override fun bind(item: Movie) {
         bindTitle(item.title)
         bindAvatar(item.posterPath)
 
@@ -57,10 +57,11 @@ internal class GenreDetailViewHolder (
         progressBar.visibility = View.GONE
     }
 
-    fun free() {
+    override fun free() {
         posterImg ?: return
         Picasso
             .get()
             .cancelRequest(posterImg)
     }
+
 }

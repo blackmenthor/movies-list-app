@@ -6,12 +6,12 @@ import io.reactivex.Flowable
 import tech.arifandi.movielistapp.redux.ThreadSafeStore
 import tech.arifandi.movielistapp.redux.states.AppState
 import tech.arifandi.movielistapp.ui.genre_detail.GenreDetailPresenter
-import tech.arifandi.movielistapp.ui.genre_detail.GenreDetailView
+import tech.arifandi.movielistapp.ui.genre_detail.GenreDetailContract
 import tech.arifandi.movielistapp.ui.genre_detail.adapter.GenreDetailAdapter
 import tech.arifandi.movielistapp.ui.genre_detail.converters.AppStateToGenreDetailViewModelConverter
 
 @Module
-internal class GenreDetailModule(private val view: GenreDetailView) {
+internal class GenreDetailModule(private val contract: GenreDetailContract) {
 
     @Provides
     @GenreDetailScope
@@ -32,7 +32,7 @@ internal class GenreDetailModule(private val view: GenreDetailView) {
         stateFlowable: Flowable<AppState>,
         converter: AppStateToGenreDetailViewModelConverter
     ): GenreDetailPresenter {
-        return GenreDetailPresenter(view, store, stateFlowable, converter)
+        return GenreDetailPresenter(contract, store, stateFlowable, converter)
     }
 
 }

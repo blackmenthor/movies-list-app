@@ -4,7 +4,6 @@ import dagger.Component
 import io.reactivex.Flowable
 import tech.arifandi.movielistapp.App
 import tech.arifandi.movielistapp.controller.MoviesController
-import tech.arifandi.movielistapp.manager.ManagerOrchestrator
 import tech.arifandi.movielistapp.redux.ThreadSafeStore
 import tech.arifandi.movielistapp.redux.di.ReduxModule
 import tech.arifandi.movielistapp.redux.states.AppState
@@ -18,7 +17,6 @@ internal interface SampleAppComponent {
     fun providesStateFlowable(): Flowable<AppState>
     fun providesMoviesController(): MoviesController
     fun providesStore(): ThreadSafeStore
-    fun providesManagerOrchestrator(): ManagerOrchestrator
     fun providesSchedulerProvider(): SchedulerProvider
 
     // Injectors

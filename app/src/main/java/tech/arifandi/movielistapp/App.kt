@@ -15,12 +15,6 @@ internal class App : Application() {
         init()
     }
 
-    override fun onTerminate() {
-        super.onTerminate()
-
-        graph.providesManagerOrchestrator().stopManagers()
-    }
-
     private fun init() {
         graph = DaggerSampleAppComponent
             .builder()
@@ -31,8 +25,6 @@ internal class App : Application() {
             )
             .build()
         graph.inject(this)
-
-        graph.providesManagerOrchestrator() // to trigger manager orchestrator
     }
 
 }

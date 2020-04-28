@@ -2,6 +2,7 @@ package tech.arifandi.movielistapp.models
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import tech.arifandi.movielistapp.ui.base.adapters.BaseRVAdapterModel
 import java.util.*
 
 @JsonClass(generateAdapter = true)
@@ -20,4 +21,6 @@ internal data class Movie(
     @Json(name = "vote_average") val voteAvg: Double?,
     @Json(name = "overview") val overview: String?,
     @Json(name = "release_date") val releaseDate: Date?
-)
+): BaseRVAdapterModel() {
+    override fun getModelId(): Int = id
+}

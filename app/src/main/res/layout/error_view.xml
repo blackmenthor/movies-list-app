@@ -27,4 +27,10 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp" />
 
+    <Button
+        android:id="@+id/btnRetry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/retry_text" />
+
 </LinearLayout>

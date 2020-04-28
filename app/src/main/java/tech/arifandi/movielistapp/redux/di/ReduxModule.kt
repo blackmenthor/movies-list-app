@@ -21,6 +21,7 @@ internal typealias NonNullReducer = (action: Action, state: AppState) -> AppStat
         GenreActionsModule::class,
         GenreDetailActionsModule::class,
         MovieDetailActionsModule::class,
+        MovieReviewListActionsModule::class,
         MiddlewaresModule::class
     ]
 )
@@ -32,6 +33,7 @@ internal class ReduxModule {
         @Named(GenreActionsModule.FACTORY_NAME) genreActionsFactory: ActionsFactory,
         @Named(GenreDetailActionsModule.FACTORY_NAME) genreDetailActionsFactory: ActionsFactory,
         @Named(MovieDetailActionsModule.FACTORY_NAME) movieDetailActionsFactory: ActionsFactory,
+        @Named(MovieReviewListActionsModule.FACTORY_NAME) movieReviewListActionsFactory: ActionsFactory,
         middlewareFactory: MiddlewareFactory
     ): ThreadSafeStore {
         return ThreadSafeStore(
@@ -39,7 +41,8 @@ internal class ReduxModule {
                 listOf(
                     genreActionsFactory::reduce,
                     genreDetailActionsFactory::reduce,
-                    movieDetailActionsFactory::reduce
+                    movieDetailActionsFactory::reduce,
+                    movieReviewListActionsFactory::reduce
                 )
             ),
             state = AppState.create(),

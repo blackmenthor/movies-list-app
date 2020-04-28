@@ -6,13 +6,13 @@ import io.reactivex.Flowable
 import tech.arifandi.movielistapp.redux.ThreadSafeStore
 import tech.arifandi.movielistapp.redux.states.AppState
 import tech.arifandi.movielistapp.ui.movie_detail.MovieDetailPresenter
-import tech.arifandi.movielistapp.ui.movie_detail.MovieDetailView
+import tech.arifandi.movielistapp.ui.movie_detail.MovieDetailContract
 import tech.arifandi.movielistapp.ui.movie_detail.adapter.ReviewAdapter
 import tech.arifandi.movielistapp.ui.movie_detail.adapter.VideoAdapter
 import tech.arifandi.movielistapp.ui.movie_detail.converters.AppStateToMovieDetailViewModelConverter
 
 @Module
-internal class MovieDetailModule(private val view: MovieDetailView) {
+internal class MovieDetailModule(private val contract: MovieDetailContract) {
 
     @Provides
     @MovieDetailScope
@@ -39,7 +39,7 @@ internal class MovieDetailModule(private val view: MovieDetailView) {
         stateFlowable: Flowable<AppState>,
         converter: AppStateToMovieDetailViewModelConverter
     ): MovieDetailPresenter {
-        return MovieDetailPresenter(view, store, stateFlowable, converter)
+        return MovieDetailPresenter(contract, store, stateFlowable, converter)
     }
 
 }

@@ -23,6 +23,7 @@ import tech.arifandi.movielistapp.ui.movie_detail.adapter.ReviewAdapter
 import tech.arifandi.movielistapp.ui.movie_detail.adapter.VideoAdapter
 import tech.arifandi.movielistapp.ui.movie_detail.di.MovieDetailGraph
 import tech.arifandi.movielistapp.ui.movie_detail.di.MovieDetailModule
+import tech.arifandi.movielistapp.ui.movie_review_list.MovieReviewListActivity
 import tech.arifandi.movielistapp.utils.SchedulerProvider
 import tech.arifandi.movielistapp.utils.asVisibility
 import tech.arifandi.movielistapp.utils.convertToImagePath
@@ -39,10 +40,11 @@ internal data class MovieDetailViewModel(
     val viewState: MovieDetailViewState,
     val result: MovieDetail?,
     val reviews: List<MovieReview>?,
+    val moreReviewsAvailable: Boolean,
     val videos: List<MovieVideo>?
 )
 
-internal class MovieDetailActivity : BaseActivity(), MovieDetailView {
+internal class MovieDetailActivity : BaseActivity(), MovieDetailContract {
 
     @Inject
     lateinit var presenter: MovieDetailPresenter
@@ -68,6 +70,7 @@ internal class MovieDetailActivity : BaseActivity(), MovieDetailView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_detail)
+        setUpActionBar()
         subscribeToPresenter()
         setupRecyclerView()
         startPresenter()
@@ -78,6 +81,11 @@ internal class MovieDetailActivity : BaseActivity(), MovieDetailView {
 
         presenter.destroy()
         compositeDisposable.clear()
+    }
+
+    private fun setUpActionBar() {
+        val title = resources.getString(R.string.movie_detail_title)
+        supportActionBar?.title = title
     }
 
     private fun startPresenter() {
@@ -98,6 +106,7 @@ internal class MovieDetailActivity : BaseActivity(), MovieDetailView {
         containerError.visibility = View.VISIBLE
         containerLoading.visibility = View.GONE
         result.visibility = View.GONE
+        btnRetry.setOnClickListener { startPresenter() }
 
         if (throwable is ApiError)
             txtError.text = throwable.getMessage(resources)
@@ -125,10 +134,21 @@ internal class MovieDetailActivity : BaseActivity(), MovieDetailView {
                 showMovieContent(viewModel.result)
                 txtNoReview.visibility = viewModel.reviews.isNullOrEmpty().asVisibility()
                 reviewsList.visibility = viewModel.reviews?.isNotEmpty()?.asVisibility() ?: View.GONE
+                viewModel.moreReviewsAvailable.apply {
+                    btnSeeAllReviews.visibility = this.asVisibility()
+                    if (this) setupSeeAllReviewsBtn()
+                }
+                txtNoVideos.visibility = viewModel.videos.isNullOrEmpty().asVisibility()
+                videosList.visibility = viewModel.videos?.isNotEmpty()?.asVisibility() ?: View.GONE
             }
         }
         adapter.results = viewModel.reviews
         videoAdapter.results = viewModel.videos
+    }
+
+    private fun setupSeeAllReviewsBtn() {
+        val movieId = intent.getIntExtra(MOVIE_ID_KEY, 0)
+        btnSeeAllReviews.setOnClickListener { presenter.goToReviewsPage(movieId) }
     }
 
     private fun setupRecyclerView() {
@@ -140,7 +160,6 @@ internal class MovieDetailActivity : BaseActivity(), MovieDetailView {
         videosList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         videosList.isNestedScrollingEnabled = false
 
-        adapter.onLoadingViewDrawn = { presenter.loadNextPage() }
         videoAdapter.onOpenYoutubeClicked = { presenter.openYoutubeVideo(it.key) }
     }
 
@@ -150,7 +169,7 @@ internal class MovieDetailActivity : BaseActivity(), MovieDetailView {
         txtTitle.text = item.title
         txtReleaseDate.text = item.releaseDate
         txtRating.text = item.voteAvg.toString()
-        txtRuntime.text = "${item.runtime} Minutes"
+        txtRuntime.text = resources.getString(R.string.movie_detail_runtime_template, item.runtime)
         txtOverview.text = item.overview
         reviewsList.visibility = View.VISIBLE
     }
@@ -182,6 +201,11 @@ internal class MovieDetailActivity : BaseActivity(), MovieDetailView {
     override fun openYoutubeVideo(videoKey: String?) {
         videoKey ?: return
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://$videoKey")))
+    }
+
+    override fun goToReviewPage(movieId: Int) {
+        val intent = MovieReviewListActivity.newIntent(this, movieId)
+        startActivity(intent)
     }
 
     companion object {

@@ -1,8 +1,24 @@
 <resources>
     <string name="app_name">Movie List App</string>
     <string name="home_title">Movie DB List</string>
-    <string name="home_loading">Please wait…</string>
+    <string name="loading_text">Please wait…</string>
     <string name="generic_api_error">Sorry, There\'s something wrong with our system</string>
     <string name="api_connectivity_error">Connection error, Please check your device\'s internet connection</string>
     <string name="not_found_error">Data Not Found</string>
+    <string name="retry_text">Retry</string>
+    <string name="read_more_text">Read More</string>
+    <string name="collapse_text">Collapse</string>
+    <string name="open_youtube_text">Open Youtube</string>
+    <string name="movie_detail_release_date">Release Date: </string>
+    <string name="movie_detail_runtime">Runtime: </string>
+    <string name="movie_detail_overview">Overview: </string>
+    <string name="movie_detail_reviews">Reviews: </string>
+    <string name="movie_detail_reviews_empty">There are no reviews yet</string>
+    <string name="movie_detail_videos">Videos: </string>
+    <string name="movie_detail_videos_empty">There are no videos yet</string>
+    <string name="movie_detail_runtime_template">%d Minutes</string>
+    <string name="genre_list_title">Genres List</string>
+    <string name="movie_detail_title">Movie Detail</string>
+    <string name="movie_detail_see_reviews">See All Reviews</string>
+    <string name="movie_review_list_title">Movie Reviews</string>
 </resources>

@@ -2,23 +2,17 @@ package tech.arifandi.movielistapp.ui.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView.*
 import tech.arifandi.movielistapp.R
 import tech.arifandi.movielistapp.models.Genre
+import tech.arifandi.movielistapp.ui.base.adapters.BaseRVAdapter
 
-internal class GenresAdapter: Adapter<GenreViewHolder>() {
+internal class GenresAdapter: BaseRVAdapter<Genre>(R.layout.item_genre_view) {
 
     var onGenreClicked: (Genre) -> Unit = {}
 
     init {
         setHasStableIds(true)
     }
-
-    internal var results: List<Genre?>? = null
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreViewHolder {
         val layout = R.layout.item_genre_view
@@ -32,25 +26,6 @@ internal class GenresAdapter: Adapter<GenreViewHolder>() {
                 ),
             onGenreClicked
         )
-    }
-
-    override fun getItemCount(): Int {
-        return results?.size ?: 0
-    }
-
-    override fun getItemId(position: Int): Long {
-        val results = results ?: return 0L
-        val result = results[position]
-        return result
-            ?.id
-            .hashCode()
-            .toLong()
-    }
-
-    override fun onBindViewHolder(holder: GenreViewHolder, position: Int) {
-        val results = results ?: return
-        val result = results[position]
-        holder.bind(result)
     }
 
 }

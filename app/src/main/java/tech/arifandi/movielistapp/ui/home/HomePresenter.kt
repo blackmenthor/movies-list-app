@@ -10,7 +10,7 @@ import tech.arifandi.movielistapp.ui.base.BasePresenter
 import tech.arifandi.movielistapp.ui.home.converters.AppStateToHomeViewModelConverter
 
 internal class HomePresenter(
-    private val homeView: HomeView,
+    private val homeContract: HomeContract,
     private val store: ThreadSafeStore,
     stateFlowable: Flowable<AppState>,
     converter: AppStateToHomeViewModelConverter
@@ -29,7 +29,7 @@ internal class HomePresenter(
 
     fun startFetchingGenres() = store.dispatch(GenreActions.StartFetching)
 
-    fun onGenreClicked(genre: Genre) = homeView.goToGenreDetailActivity(genre.id)
+    fun onGenreClicked(genre: Genre) = homeContract.goToGenreDetailActivity(genre)
 
     fun destroy() {
         compositeDisposable.clear()

@@ -32,7 +32,6 @@ internal class SplashActivity : BaseActivity(), SplashView {
     }
 
     override fun inject() {
-
         SplashGraph()
             .sampleAppComponent((application as App).graph)
             .homeModule(SplashModule(this))

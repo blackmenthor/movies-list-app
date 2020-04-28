@@ -12,7 +12,6 @@ import tech.arifandi.movielistapp.api.ApiFactory
 import tech.arifandi.movielistapp.api.BaseHeadersInterceptor
 import tech.arifandi.movielistapp.controller.MoviesController
 import tech.arifandi.movielistapp.logging.Logger
-import tech.arifandi.movielistapp.manager.ManagerOrchestrator
 import tech.arifandi.movielistapp.utils.BuildConfigWrapper
 import tech.arifandi.movielistapp.utils.SchedulerProvider
 import javax.inject.Singleton
@@ -78,8 +77,4 @@ internal class SampleAppModule(private val app: App) {
         schedulerProvider: SchedulerProvider
     ): MoviesController = MoviesController(api, logger, schedulerProvider)
 
-    @Provides
-    @Singleton
-    fun providesManagerOrchestrator(): ManagerOrchestrator
-            = ManagerOrchestrator(listOf())
 }

@@ -2,6 +2,7 @@ package tech.arifandi.movielistapp.models
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import tech.arifandi.movielistapp.ui.base.adapters.BaseRVAdapterModel
 
 @JsonClass(generateAdapter = true)
 internal data class MovieVideo(
@@ -13,4 +14,6 @@ internal data class MovieVideo(
     @Json(name = "site") val site: String?,
     @Json(name = "size") val size: Int?,
     @Json(name = "type") val type: String?
-)
+): BaseRVAdapterModel() {
+    override fun getModelId(): Int = id.hashCode()
+}

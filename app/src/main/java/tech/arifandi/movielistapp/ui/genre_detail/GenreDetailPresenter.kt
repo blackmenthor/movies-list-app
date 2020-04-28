@@ -10,7 +10,7 @@ import tech.arifandi.movielistapp.ui.base.BasePresenter
 import tech.arifandi.movielistapp.ui.genre_detail.converters.AppStateToGenreDetailViewModelConverter
 
 internal class GenreDetailPresenter(
-    private val genreDetailView: GenreDetailView,
+    private val genreDetailContract: GenreDetailContract,
     private val store: ThreadSafeStore,
     stateFlowable: Flowable<AppState>,
     converter: AppStateToGenreDetailViewModelConverter
@@ -31,7 +31,7 @@ internal class GenreDetailPresenter(
 
     fun loadNextPage() = store.dispatch(GenreDetailActions.LoadNextPage)
 
-    fun onMovieClicked(movie: Movie) = genreDetailView.openMovieDetailPage(movie.id)
+    fun onMovieClicked(movie: Movie) = genreDetailContract.openMovieDetailPage(movie.id)
 
     fun destroy() {
         compositeDisposable.clear()

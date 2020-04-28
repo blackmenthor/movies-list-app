@@ -5,7 +5,8 @@ import org.rekotlin.StateType
 internal data class AppState(
     val genresState: GenresState,
     val genreDetailState: GenreDetailState,
-    val movieDetailState: MovieDetailState
+    val movieDetailState: MovieDetailState,
+    val movieReviewListState: MovieReviewListState
 ) : StateType {
 
     internal companion object {
@@ -13,7 +14,8 @@ internal data class AppState(
         fun create(): AppState = AppState(
             genresState = GenresState(),
             genreDetailState = GenreDetailState(),
-            movieDetailState = MovieDetailState()
+            movieDetailState = MovieDetailState(),
+            movieReviewListState = MovieReviewListState()
         )
     }
 }

@@ -10,7 +10,7 @@ internal open class ApiError(
 ) : Throwable() {
 
     fun getMessage(resources: Resources): String {
-        if (msg == null && msgResource == null) return resources.getString(R.string.generic_api_error)
+        if (msg.isNullOrEmpty() && msgResource == null) return resources.getString(R.string.generic_api_error)
         return msg ?: resources.getString(msgResource!!)
     }
 

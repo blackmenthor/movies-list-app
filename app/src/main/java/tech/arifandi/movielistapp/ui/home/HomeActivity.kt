@@ -30,7 +30,7 @@ internal sealed class HomeViewState {
 
 internal data class HomeViewModel(val viewState: HomeViewState, val results: List<Genre?>)
 
-internal class HomeActivity : BaseActivity(), HomeView {
+internal class HomeActivity : BaseActivity(), HomeContract {
 
     @Inject
     lateinit var presenter: HomePresenter
@@ -77,7 +77,8 @@ internal class HomeActivity : BaseActivity(), HomeView {
     private fun showErrorState(throwable: Throwable) {
         containerError.visibility = View.VISIBLE
         containerLoading.visibility = View.GONE
-        resultsList.visibility = View.GONE
+        containerMain.visibility = View.GONE
+        btnRetry.setOnClickListener { presenter.startFetchingGenres() }
 
         if (throwable is ApiError)
             txtError.text = throwable.getMessage(resources)
@@ -90,17 +91,17 @@ internal class HomeActivity : BaseActivity(), HomeView {
             HomeViewState.Idle -> {
                 containerError.visibility = View.GONE
                 containerLoading.visibility = View.GONE
-                resultsList.visibility = View.GONE
+                containerMain.visibility = View.GONE
             }
             HomeViewState.Requesting -> {
                 containerError.visibility = View.GONE
                 containerLoading.visibility = View.VISIBLE
-                resultsList.visibility = View.GONE
+                containerMain.visibility = View.GONE
             }
             is HomeViewState.Failed -> showErrorState(viewModel.viewState.cause)
             HomeViewState.Succeed -> {
                 containerLoading.visibility = View.GONE
-                resultsList.visibility = viewModel.results.isNotEmpty().asVisibility()
+                containerMain.visibility = viewModel.results.isNotEmpty().asVisibility()
                 containerError.visibility = viewModel.results.isEmpty().asVisibility()
             }
         }
@@ -110,6 +111,7 @@ internal class HomeActivity : BaseActivity(), HomeView {
     private fun setupRecyclerView() {
         resultsList.adapter = adapter
         resultsList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        resultsList.isNestedScrollingEnabled = false
 
         adapter.onGenreClicked = { presenter.onGenreClicked(it) }
     }
@@ -120,8 +122,8 @@ internal class HomeActivity : BaseActivity(), HomeView {
         }
     }
 
-    override fun goToGenreDetailActivity(genreId: Int) {
-        val intent = GenreDetailActivity.newIntent(this, genreId)
+    override fun goToGenreDetailActivity(genre: Genre) {
+        val intent = GenreDetailActivity.newIntent(this, genre)
         startActivity(intent)
     }
 

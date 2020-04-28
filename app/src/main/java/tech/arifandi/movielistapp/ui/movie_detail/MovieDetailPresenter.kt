@@ -9,7 +9,7 @@ import tech.arifandi.movielistapp.ui.base.BasePresenter
 import tech.arifandi.movielistapp.ui.movie_detail.converters.AppStateToMovieDetailViewModelConverter
 
 internal class MovieDetailPresenter(
-    private val movieDetailView: MovieDetailView,
+    private val movieDetailContract: MovieDetailContract,
     private val store: ThreadSafeStore,
     stateFlowable: Flowable<AppState>,
     converter: AppStateToMovieDetailViewModelConverter
@@ -29,9 +29,9 @@ internal class MovieDetailPresenter(
 
     fun startFetching(movieId: Int) = store.dispatch(MovieDetailActions.StartFetching(movieId))
 
-    fun loadNextPage() = store.dispatch(MovieDetailActions.LoadNextReviewPage)
+    fun openYoutubeVideo(videoKey: String?) = movieDetailContract.openYoutubeVideo(videoKey)
 
-    fun openYoutubeVideo(videoKey: String?) = movieDetailView.openYoutubeVideo(videoKey)
+    fun goToReviewsPage(movieId: Int) = movieDetailContract.goToReviewPage(movieId)
 
     fun destroy() {
         compositeDisposable.clear()

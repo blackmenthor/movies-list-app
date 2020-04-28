@@ -2,9 +2,9 @@ package tech.arifandi.movielistapp.redux.di
 
 import dagger.Module
 import dagger.Provides
+import tech.arifandi.movielistapp.models.GeneralPageState
 import tech.arifandi.movielistapp.redux.actions.GenreActions
 import tech.arifandi.movielistapp.redux.states.AppState
-import tech.arifandi.movielistapp.redux.states.CurrentGenrePageState
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -16,32 +16,32 @@ internal class GenreActionsModule {
     @Named(FACTORY_NAME)
     fun providesGenreActionsFactory(): ActionsFactory {
         return ActionsFactory()
-            .register(GenreActions.ResetFetch::class, ::resetSearchStateReducer)
-            .register(GenreActions.StartFetching::class, ::searchStartsStateReducer)
+            .register(GenreActions.ResetFetch::class, ::resetFetchStateReducer)
+            .register(GenreActions.StartFetching::class, ::startFetchingStateReducer)
             .register(GenreActions.GotResults::class, ::gotResultsStateReducer)
-            .register(GenreActions.FetchFailed::class, ::searchFailedStateReducer)
+            .register(GenreActions.FetchFailed::class, ::fetchFailedStateReducer)
     }
 
     companion object {
         const val FACTORY_NAME = "genreActionsFactory"
 
-        private fun resetSearchStateReducer(action: GenreActions.ResetFetch, state: AppState):
+        private fun resetFetchStateReducer(action: GenreActions.ResetFetch, state: AppState):
                 AppState {
 
             return state.copy(
                 genresState = state.genresState.copy(
-                    currentState = CurrentGenrePageState.Idle,
+                    currentState = GeneralPageState.Idle,
                     genresResult = listOf()
                 )
             )
         }
 
-        private fun searchStartsStateReducer(action: GenreActions.StartFetching, state: AppState):
+        private fun startFetchingStateReducer(action: GenreActions.StartFetching, state: AppState):
                 AppState {
 
             return state.copy(
                 genresState = state.genresState.copy(
-                    currentState = CurrentGenrePageState.Requesting,
+                    currentState = GeneralPageState.Requesting,
                     genresResult = listOf()
                 )
             )
@@ -52,18 +52,18 @@ internal class GenreActionsModule {
 
             return state.copy(
                 genresState = state.genresState.copy(
-                    currentState = CurrentGenrePageState.Succeed,
+                    currentState = GeneralPageState.Succeed,
                     genresResult = action.payload
                 )
             )
         }
 
-        private fun searchFailedStateReducer(action: GenreActions.FetchFailed, state: AppState):
+        private fun fetchFailedStateReducer(action: GenreActions.FetchFailed, state: AppState):
                 AppState {
 
             return state.copy(
                 genresState = state.genresState.copy(
-                    currentState = CurrentGenrePageState.Failed(action.payload)
+                    currentState = GeneralPageState.Failed(action.payload)
                 )
             )
         }
