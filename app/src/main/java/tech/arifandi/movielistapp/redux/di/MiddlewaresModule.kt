@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import io.reactivex.Single
 import org.rekotlin.Action
-import tech.arifandi.movielistapp.controller.MoviesController
+import tech.arifandi.movielistapp.core.controller.MoviesController
 import tech.arifandi.movielistapp.models.MovieDetailItem
 import tech.arifandi.movielistapp.redux.actions.GenreActions
 import tech.arifandi.movielistapp.redux.actions.GenreDetailActions

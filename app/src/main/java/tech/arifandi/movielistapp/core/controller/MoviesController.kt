@@ -1,4 +1,4 @@
-package tech.arifandi.movielistapp.controller
+package tech.arifandi.movielistapp.core.controller
 
 import io.reactivex.Single
 import tech.arifandi.movielistapp.R

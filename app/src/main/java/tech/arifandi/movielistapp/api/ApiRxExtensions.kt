@@ -6,13 +6,11 @@ import io.reactivex.Single
 import retrofit2.HttpException
 import tech.arifandi.movielistapp.api.error.ApiGenericError
 import tech.arifandi.movielistapp.api.error.ApiNoConnectivityError
-import tech.arifandi.movielistapp.logging.Logger
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 private fun parseError(error: Throwable): ApiError {
-    Logger.Instance.logError(error)
     var parsedError: ApiError = ApiGenericError()
     if (error is UnknownHostException || error is SocketTimeoutException || error is ConnectException) {
         parsedError = ApiNoConnectivityError()

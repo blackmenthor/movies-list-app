@@ -3,7 +3,7 @@ package tech.arifandi.movielistapp.di
 import dagger.Component
 import io.reactivex.Flowable
 import tech.arifandi.movielistapp.App
-import tech.arifandi.movielistapp.controller.MoviesController
+import tech.arifandi.movielistapp.core.controller.MoviesController
 import tech.arifandi.movielistapp.redux.ThreadSafeStore
 import tech.arifandi.movielistapp.redux.di.ReduxModule
 import tech.arifandi.movielistapp.redux.states.AppState

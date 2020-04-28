@@ -10,7 +10,7 @@ import tech.arifandi.movielistapp.App
 import tech.arifandi.movielistapp.api.Api
 import tech.arifandi.movielistapp.api.ApiFactory
 import tech.arifandi.movielistapp.api.BaseHeadersInterceptor
-import tech.arifandi.movielistapp.controller.MoviesController
+import tech.arifandi.movielistapp.core.controller.MoviesController
 import tech.arifandi.movielistapp.logging.Logger
 import tech.arifandi.movielistapp.utils.BuildConfigWrapper
 import tech.arifandi.movielistapp.utils.SchedulerProvider
